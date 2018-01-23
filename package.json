@@ -1,0 +1,13 @@
+{
+  "name": "ziro-onboarding-backend",
+  "version": "1.0.0",
+  "description": "Backend for Ziro Onboarding project",
+  "main": "index.js",
+  "repository": "https://github.com/vitorbarbosa19/ziro-onboarding-backend",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["node"],
+  "author": "Vitor Barbosa",
+  "license": "ISC"
+}

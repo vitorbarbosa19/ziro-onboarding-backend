@@ -1,7 +1,8 @@
 const sefaz = async () => {
 	try {
 		const puppeteer = require('puppeteer')
-		const browser = await puppeteer.launch()
+		// add args when deploying to heroku
+		const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
 		const page = await browser.newPage()
 		await page.goto(`https://www.sefaz.rs.gov.br/NFE/NFE-CCC.aspx`)
 		await page.type(`#ContornoCnpj > input`, `27.098.019/0001-79`, { delay: 200 })

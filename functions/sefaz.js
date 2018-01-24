@@ -1,11 +1,11 @@
-const sefaz = async () => {
+const sefaz = async (cnpj) => {
 	try {
 		const puppeteer = require('puppeteer')
 		// add args when deploying to heroku
 		const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
 		const page = await browser.newPage()
 		await page.goto(`https://www.sefaz.rs.gov.br/NFE/NFE-CCC.aspx`)
-		await page.type(`#ContornoCnpj > input`, `27.098.019/0001-79`, { delay: 200 })
+		await page.type(`#ContornoCnpj > input`, `${cnpj}`, { delay: 200 })
 		await page.click(`input[value="Pesquisar por CNPJ"]`)
 		await page.waitFor(3000)
 		const inscricaoEstadual = await page.$$eval(`.tabelaResultado > tbody > tr:nth-child(2) > td:nth-child(3) > a`, (aTags) => {

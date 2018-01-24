@@ -3,8 +3,10 @@ const app = express()
 
 app.get('/', async (req, res) => {
 	try {
+		const url = require('url')
 		const sefaz = require('./functions/sefaz')
-		const result = await sefaz()
+		const cnpjToSearch = url.parse(req.url, true).query.cnpj
+		const result = await sefaz(cnpjToSearch)
 		if (result === 'error')
 			res.end('Error executing scraper')
 		console.log(result)

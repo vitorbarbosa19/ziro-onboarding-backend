@@ -14,7 +14,8 @@ app.get('/submit', async (req, res) => {
 			const findMonth = require('./functions/findMonth')
 			const dataCadastro = `${now.substr(8,2)}/${now.substr(4,3)}/${now.substr(11,4)} ${now.substr(16,8)}`
 			const mes = findMonth(now.substr(4,3))
-			res.end(JSON.stringify({ lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
+			const sheetUpdater = require('./functions/sheetUpdater')
+			res.end( await sheetUpdater({ lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
 			cep, cidade, estado, fone, email, referencia, dataCadastro, mes }))
 		}
 	} catch (error) {

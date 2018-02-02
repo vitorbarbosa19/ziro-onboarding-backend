@@ -30,10 +30,10 @@ app.get('/business-info', async (req, res) => {
 		const requestPromise = require('request-promise-native')
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
 		const result = await requestPromise(`https://zirocnpj.now.sh?cnpj=${cnpjToSearch}`)
-		res.end(JSON.stringify({ error: '', data: result }))
+		res.end(JSON.stringify({ error: '', values: result }))
 	} catch (error) {
 		console.log(error)
-		res.end(JSON.stringify({ error: 'There was an error', data: error }))
+		res.end(JSON.stringify({ error: 'There was an error', values: error }))
 	}
 })
 
@@ -44,15 +44,16 @@ app.get('/inscricao-estadual', async (req, res) => {
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
 		const result = await sefaz(cnpjToSearch)
 		if (result === 'error')
-			res.end(JSON.stringify({ error: 'Error executing scraper', data: '' }))
-		res.end(JSON.stringify({ error: '', data: result }))
+			res.end(JSON.stringify({ error: 'Error executing scraper', values: '' }))
+		res.end(JSON.stringify({ error: '', values: result }))
 	} catch (error) {
 		console.log(error)
-		res.end(JSON.stringify({ error: 'There was an error', data: error }))
+		res.end(JSON.stringify({ error: 'There was an error', values: error }))
 	}
 })
 
 app.use( (req, res) => {
+	res.setHeader('Access-Control-Allow-Origin', '*')
 	res.status(404).send('Rota inválida. Use as rotas: /submit /business-info /inscricao-estadual')
 })
 

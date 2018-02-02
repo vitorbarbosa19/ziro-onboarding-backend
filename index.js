@@ -30,10 +30,10 @@ app.get('/business-info', async (req, res) => {
 		const requestPromise = require('request-promise-native')
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
 		const result = await requestPromise(`https://zirocnpj.now.sh?cnpj=${cnpjToSearch}`)
-		res.end(result)
+		res.end(JSON.stringify({ error: '', data: result }))
 	} catch (error) {
 		console.log(error)
-		res.end(error)
+		res.end(JSON.stringify({ error: 'There was an error', data: error }))
 	}
 })
 
@@ -44,11 +44,11 @@ app.get('/inscricao-estadual', async (req, res) => {
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
 		const result = await sefaz(cnpjToSearch)
 		if (result === 'error')
-			res.end('Error executing scraper')
-		res.end(result)
+			res.end(JSON.stringify({ error: 'Error executing scraper', data: '' }))
+		res.end(JSON.stringify({ error: '', data: result }))
 	} catch (error) {
 		console.log(error)
-		res.end(error)
+		res.end(JSON.stringify({ error: 'There was an error', data: error }))
 	}
 })
 

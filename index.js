@@ -52,4 +52,8 @@ app.get('/inscricao-estadual', async (req, res) => {
 	}
 })
 
+app.use( (req, res) => {
+	res.status(404).send('Rota inválida. Use as rotas: /submit /business-info /inscricao-estadual')
+})
+
 app.listen(process.env.PORT || 3000, () => console.log(`Listening on ${process.env.PORT || 3000}`))

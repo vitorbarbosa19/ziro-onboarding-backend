@@ -29,8 +29,13 @@ app.get('/business-info', async (req, res) => {
 	try {
 		const requestPromise = require('request-promise-native')
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
-		const result = await requestPromise(`https://zirocnpj.now.sh?cnpj=${cnpjToSearch}`)
-		res.end(JSON.stringify({ error: '', values: result }))
+		if (cnpjToSearch) {
+			const result = JSON.parse(await requestPromise(`https://zirocnpj.now.sh?cnpj=${cnpjToSearch}`))
+			if (result.status === "ERROR")
+				res.end(JSON.stringify({ error: 'There was an error', values: result.message }))
+			res.end(JSON.stringify({ error: '', values: result }))
+		}
+		res.end(JSON.stringify({ error: 'Invalid parameter: cnpj', values: '' }))
 	} catch (error) {
 		console.log(error)
 		res.end(JSON.stringify({ error: 'There was an error', values: error }))
@@ -42,10 +47,13 @@ app.get('/inscricao-estadual', async (req, res) => {
 	try {
 		const sefaz = require('./functions/sefaz')
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
-		const result = await sefaz(cnpjToSearch)
-		if (result === 'error')
-			res.end(JSON.stringify({ error: 'Error executing scraper', values: '' }))
-		res.end(JSON.stringify({ error: '', values: result }))
+		if (cnpjToSearch) {
+			const result = await sefaz(cnpjToSearch)
+			if (result === 'error')
+				res.end(JSON.stringify({ error: 'Error during scrape execution. Check CNPJ value', values: '' }))
+			res.end(JSON.stringify({ error: '', values: result }))
+		}
+		res.end(JSON.stringify({ error: 'Invalid parameter: cnpj', values: '' }))
 	} catch (error) {
 		console.log(error)
 		res.end(JSON.stringify({ error: 'There was an error', values: error }))

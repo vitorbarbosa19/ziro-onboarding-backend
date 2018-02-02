@@ -47,7 +47,7 @@ app.get('/inscricao-estadual', async (req, res) => {
 	try {
 		const sefaz = require('./functions/sefaz')
 		const cnpjToSearch = url.parse(req.url, true).query.cnpj
-		if (cnpjToSearch) {
+		if (cnpjToSearch.length === 14) {
 			const result = await sefaz(cnpjToSearch)
 			if (result === 'error')
 				res.end(JSON.stringify({ error: 'Error during scrape execution. Check CNPJ value', values: '' }))

@@ -8,19 +8,16 @@ app.get('/submit', async (req, res) => {
 		const query = url.parse(req.url, true).query
 		const { lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
 			cep, cidade, estado, fone, email, referencia } = query
-		if (lojista && rg && cpf && ie && razaoSocial && nomeFantasia && endereco && bairro
-			&& cep && cidade && estado && fone && email && referencia) {
-			const now = new Date().toString()
-			const findMonth = require('./functions/findMonth')
-			const dataCadastro = `${now.substr(8,2)}/${now.substr(4,3)}/${now.substr(11,4)} ${now.substr(16,8)}`
-			const mes = findMonth(now.substr(4,3))
-			const sheetUpdater = require('./functions/sheetUpdater')
-			res.end( await sheetUpdater({ lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
-			cep, cidade, estado, fone, email, referencia, dataCadastro, mes }))
-		}
+		const now = new Date().toString()
+		const findMonth = require('./functions/findMonth')
+		const dataCadastro = `${now.substr(8,2)}/${now.substr(4,3)}/${now.substr(11,4)} ${now.substr(16,8)}`
+		const mes = findMonth(dataCadastro.substr(3,3))
+		const sheetUpdater = require('./functions/sheetUpdater')
+		res.end( await sheetUpdater({ lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
+		cep, cidade, estado, fone, email, referencia, dataCadastro, mes }))
 	} catch (error) {
 		console.log(error)
-		res.end(error)
+		res.end(JSON.stringify({ error: 'There was an error', values: error }))
 	}
 })
 

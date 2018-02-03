@@ -50,7 +50,7 @@ app.get('/inscricao-estadual', async (req, res) => {
 		if (cnpjToSearch.length === 14) {
 			const result = await sefaz(cnpjToSearch)
 			if (result === 'error')
-				res.end(JSON.stringify({ error: 'Error during scrape execution. Check CNPJ value', values: '' }))
+				res.end(JSON.stringify({ error: 'Error during scrape execution', values: '' }))
 			res.end(JSON.stringify({ error: '', values: result }))
 		}
 		res.end(JSON.stringify({ error: 'Invalid parameter: cnpj', values: '' }))

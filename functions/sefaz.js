@@ -11,8 +11,19 @@ const sefaz = async (cnpj) => {
 		const inscricaoEstadual = await page.$$eval(`.tabelaResultado > tbody > tr:nth-child(2) > td:nth-child(3) > a`, (aTags) => {
 			return Array.prototype.map.call(aTags, (aTag) => aTag.innerHTML)
 		})
+		if (inscricaoEstadual.length > 0) {
+			await browser.close()
+			return inscricaoEstadual.pop().trim()
+		}
+		const inscricaoNotFound = await page.$$eval(`.tabelaResultado > tbody > tr:nth-child(2) > td`, (messages) => {
+			return Array.prototype.map.call(messages, (message) => message.innerHTML)
+		})
+		if (inscricaoNotFound.length > 0) {
+			await browser.close()
+			return inscricaoNotFound.pop().trim()
+		}
 		await browser.close()
-		return inscricaoEstadual.pop().trim()
+		return 'error'
 	} catch (error) {
 		console.log(error)
 		return 'error'

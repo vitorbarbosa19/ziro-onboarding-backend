@@ -14,9 +14,17 @@ app.get('/submit', async (req, res) => {
 		const mes = findMonth(dataCadastro.substr(3,3))
 		const sheetUpdater = require('./functions/sheetUpdater')
 		const formatCpf = require('./functions/formatCpf')
+		const formattedCPf = formatCpf(cpf)
 		const formatCnpj = require('./functions/formatCnpj')
-		res.end( await sheetUpdater({ lojista, rg, formatCpf(cpf), formatCnpj(cnpj), ie, razaoSocial,
-			nomeFantasia, endereco, bairro, cep, cidade, estado, fone, email, referencia, dataCadastro, mes }))
+		const formattedCnpj = formatCnpj(cnpj)
+		const formatCep = require('./functions/formatCep')
+		const formattedCep = formatCep(cep)
+		const formatFone = require('./functions/formatFone')
+		const formattedFone = formatFone(fone)
+		res.end( await sheetUpdater({
+			lojista, rg, formattedCpf, formattedCnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
+			formattedCep, cidade, estado, formattedFone, email, referencia, dataCadastro, mes
+		}))
 	} catch (error) {
 		console.log(error)
 		res.end(JSON.stringify({ error: 'There was an error', values: error }))

@@ -10,4 +10,4 @@ const formatFone = (fone) => {
 	} else return fone
 }
 
-export default formatFone
+module.exports = formatFone

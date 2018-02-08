@@ -12,4 +12,4 @@ const formatCnpj = (cnpj) => {
 	} else return cnpj
 }
 
-export default formatCnpj
+module.exports = formatCnpj

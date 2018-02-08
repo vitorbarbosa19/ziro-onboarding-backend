@@ -10,4 +10,4 @@ const formatCep = (cep) => {
 	} else return cep
 }
 
-export default formatCep
+module.exports = formatCep

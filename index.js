@@ -6,7 +6,7 @@ app.get('/submit', async (req, res) => {
 	res.setHeader('Access-Control-Allow-Origin', '*')
 	try {
 		const query = url.parse(req.url, true).query
-		const { lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
+		let { lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
 			cep, cidade, estado, fone, email, referencia } = query
 		const now = new Date().toString()
 		const findMonth = require('./functions/findMonth')
@@ -14,16 +14,16 @@ app.get('/submit', async (req, res) => {
 		const mes = findMonth(dataCadastro.substr(3,3))
 		const sheetUpdater = require('./functions/sheetUpdater')
 		const formatCpf = require('./functions/formatCpf')
-		const formattedCPf = formatCpf(cpf)
+		cpf = formatCpf(cpf)
 		const formatCnpj = require('./functions/formatCnpj')
-		const formattedCnpj = formatCnpj(cnpj)
+		cnpj = formatCnpj(cnpj)
 		const formatCep = require('./functions/formatCep')
-		const formattedCep = formatCep(cep)
+		cep = formatCep(cep)
 		const formatFone = require('./functions/formatFone')
-		const formattedFone = formatFone(fone)
+		fone = formatFone(fone)
 		res.end( await sheetUpdater({
-			lojista, rg, formattedCpf, formattedCnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
-			formattedCep, cidade, estado, formattedFone, email, referencia, dataCadastro, mes
+			lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
+			cep, cidade, estado, fone, email, referencia, dataCadastro, mes
 		}))
 	} catch (error) {
 		console.log(error)

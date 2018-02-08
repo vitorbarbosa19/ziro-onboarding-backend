@@ -10,4 +10,4 @@ const formatCpf = (cpf) => {
 	} else return cpf
 }
 
-export default formatCpf
+module.exports = formatCpf

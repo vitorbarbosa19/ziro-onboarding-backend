@@ -13,8 +13,10 @@ app.get('/submit', async (req, res) => {
 		const dataCadastro = `${now.substr(8,2)}/${now.substr(4,3)}/${now.substr(11,4)} ${now.substr(16,8)}`
 		const mes = findMonth(dataCadastro.substr(3,3))
 		const sheetUpdater = require('./functions/sheetUpdater')
-		res.end( await sheetUpdater({ lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
-		cep, cidade, estado, fone, email, referencia, dataCadastro, mes }))
+		const formatCpf = require('./functions/formatCpf')
+		const formatCnpj = require('./functions/formatCnpj')
+		res.end( await sheetUpdater({ lojista, rg, formatCpf(cpf), formatCnpj(cnpj), ie, razaoSocial,
+			nomeFantasia, endereco, bairro, cep, cidade, estado, fone, email, referencia, dataCadastro, mes }))
 	} catch (error) {
 		console.log(error)
 		res.end(JSON.stringify({ error: 'There was an error', values: error }))

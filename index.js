@@ -7,7 +7,7 @@ app.get('/submit', async (req, res) => {
 	try {
 		const query = url.parse(req.url, true).query
 		let { lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
-			cep, cidade, estado, fone, email, referencia } = query
+			cep, cidade, estado, fone, email, assessor } = query
 		const now = new Date().toString()
 		const findMonth = require('./functions/findMonth')
 		const dataCadastro = `${now.substr(8,2)}/${now.substr(4,3)}/${now.substr(11,4)} ${now.substr(16,8)}`
@@ -21,9 +21,10 @@ app.get('/submit', async (req, res) => {
 		cep = formatCep(cep)
 		const formatFone = require('./functions/formatFone')
 		fone = formatFone(fone)
+		const status = 'ativo'
 		res.end( await sheetUpdater({
 			lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
-			cep, cidade, estado, fone, email, referencia, dataCadastro, mes
+			cep, cidade, estado, fone, email, assessor, dataCadastro, mes, status
 		}))
 	} catch (error) {
 		console.log(error)

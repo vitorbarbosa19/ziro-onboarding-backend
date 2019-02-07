@@ -12,6 +12,7 @@ app.get('/submit', async (req, res) => {
 		const findMonth = require('./functions/findMonth')
 		const dataCadastro = `${now.substr(8,2)}/${now.substr(4,3)}/${now.substr(11,4)} ${now.substr(16,8)}`
 		const mes = findMonth(dataCadastro.substr(3,3))
+		const ano = dataCadastro.substring(7,11)
 		const sheetUpdater = require('./functions/sheetUpdater')
 		const formatCpf = require('./functions/formatCpf')
 		cpf = formatCpf(cpf)
@@ -24,7 +25,7 @@ app.get('/submit', async (req, res) => {
 		const status = 'ativo'
 		res.end( await sheetUpdater({
 			lojista, rg, cpf, cnpj, ie, razaoSocial, nomeFantasia, endereco, bairro,
-			cep, cidade, estado, fone, email, assessor, dataCadastro, mes, status
+			cep, cidade, estado, fone, email, assessor, dataCadastro, mes, ano, status
 		}))
 	} catch (error) {
 		console.log(error)
